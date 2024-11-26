@@ -240,7 +240,7 @@ const CreateLabReport = () => {
         type="submit"
         className='bg-[#E6A4B4] p-2 rounded-md text-white hover:bg-[#D28A9E] hover:shadow-lg hover:text-black hover:scale-105'
       >
-        Submit
+        Create Report
       </button>
     </form>
   );
