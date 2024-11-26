@@ -3,6 +3,7 @@ import { BiSolidHide, BiSolidShow } from 'react-icons/bi'
 import { toast } from 'react-toastify'
 import { catchHandler, resultCheck } from '../utils/utitlityFunctions'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const CreateNewEmployee = () => {
 
@@ -16,7 +17,8 @@ const CreateNewEmployee = () => {
         confirm_password: ''
     })
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
+    
     const handleChagne = (e) => {
         setFormData(prev => (
             {...prev, [e.target.id]: e.target.value}
@@ -45,7 +47,7 @@ const CreateNewEmployee = () => {
                 body: JSON.stringify(rest)
             })
             const result = await respone.json()
-            resultCheck(dispatch, result)
+            resultCheck(dispatch, result,navigate, "/employees")
         } catch (error) {
             console.log(error)
             catchHandler(dispatch,error)
