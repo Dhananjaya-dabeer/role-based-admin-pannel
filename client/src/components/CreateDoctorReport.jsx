@@ -4,14 +4,17 @@ import { useDispatch } from 'react-redux';
 
 const CreateLabReport = () => {
   const [formData, setFormData] = useState({
-    testName: '',
-    testId: '',
-    dateOfTest: '',
-    technicianId: '',
-    labNotes: '',
-    reportStatus: '',
+    patientName: '',
+    patientId: '',
+    age: '',
+    gender: '',
+    dateOfVisit: '',
+    diagnosis: '',
+    treatmentPlan: '',
+    medications: '',
+    followUpDate: '',
     doctorName: '',
-    comments: '' // Added comments field
+    comments: ''
   });
 
   const dispatch = useDispatch();
@@ -42,14 +45,17 @@ const CreateLabReport = () => {
       const status = resultCheck(dispatch, result);
       if (status) {
         setFormData({
-          testName: '',
-          testId: '',
-          dateOfTest: '',
-          technicianId: '',
-          labNotes: '',
-          reportStatus: '',
+          patientName: '',
+          patientId: '',
+          age: '',
+          gender: '',
+          dateOfVisit: '',
+          diagnosis: '',
+          treatmentPlan: '',
+          medications: '',
+          followUpDate: '',
           doctorName: '',
-          comments: '' // Reset comments field
+          comments: ''
         });
       }
     } catch (error) {
@@ -59,126 +65,175 @@ const CreateLabReport = () => {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-5">
-      {/* Test Name Input */}
+      {/* Patient Name Input */}
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="text"
-          name="testName"
-          id="test_name"
-          value={formData.testName}
+          name="patientName"
+          id="patient_name"
+          value={formData.patientName}
           onChange={handleChange}
           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
-          required
         />
         <label
-          htmlFor="test_name"
+          htmlFor="patient_name"
           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Test Name
+          Patient Name
         </label>
       </div>
 
-      {/* Test ID Input */}
+      {/* Patient ID Input */}
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="text"
-          name="testId"
-          id="test_id"
-          value={formData.testId}
+          name="patientId"
+          id="patient_id"
+          value={formData.patientId}
           onChange={handleChange}
           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
-          required
         />
         <label
-          htmlFor="test_id"
+          htmlFor="patient_id"
           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Test ID
+          Patient ID
         </label>
       </div>
 
-      {/* Date of Test Input */}
+      {/* Age Input */}
+      <div className="relative z-0 w-full mb-5 group">
+        <input
+          type="number"
+          name="age"
+          id="age"
+          value={formData.age}
+          onChange={handleChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+        />
+        <label
+          htmlFor="age"
+          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+          Age
+        </label>
+      </div>
+
+      {/* Gender Input */}
+      <div className="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          name="gender"
+          id="gender"
+          value={formData.gender}
+          onChange={handleChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+        />
+        <label
+          htmlFor="gender"
+          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+          Gender
+        </label>
+      </div>
+
+      {/* Date of Visit Input */}
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="date"
-          name="dateOfTest"
-          id="date_of_test"
-          value={formData.dateOfTest}
-          onChange={handleChange}
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          required
-        />
-        <label
-          htmlFor="date_of_test"
-          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          Date of Test
-        </label>
-      </div>
-
-      {/* Technician ID Input */}
-      <div className="relative z-0 w-full mb-5 group">
-        <input
-          type="text"
-          name="technicianId"
-          id="technician_id"
-          value={formData.technicianId}
+          name="dateOfVisit"
+          id="date_of_visit"
+          value={formData.dateOfVisit}
           onChange={handleChange}
           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
-          required
         />
         <label
-          htmlFor="technician_id"
+          htmlFor="date_of_visit"
           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Technician ID
+          Date of Visit
         </label>
       </div>
 
-      {/* Lab Notes Input */}
+      {/* Diagnosis Input */}
       <div className="relative z-0 w-full mb-5 group">
         <textarea
-          name="labNotes"
-          id="lab_notes"
-          value={formData.labNotes}
+          name="diagnosis"
+          id="diagnosis"
+          value={formData.diagnosis}
           onChange={handleChange}
           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
         />
         <label
-          htmlFor="lab_notes"
+          htmlFor="diagnosis"
           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Lab Notes
+          Diagnosis
         </label>
       </div>
 
-      {/* Report Status Input */}
+      {/* Treatment Plan Input */}
       <div className="relative z-0 w-full mb-5 group">
-        <select
-          name="reportStatus"
-          id="report_status"
-          value={formData.reportStatus}
+        <textarea
+          name="treatmentPlan"
+          id="treatment_plan"
+          value={formData.treatmentPlan}
           onChange={handleChange}
           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          required
-        >
-          <option value="">Select Status</option>
-          <option value="completed">Completed</option>
-          <option value="pending">Pending</option>
-        </select>
+          placeholder=" "
+        />
         <label
-          htmlFor="report_status"
+          htmlFor="treatment_plan"
           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Report Status
+          Treatment Plan
         </label>
       </div>
 
-      {/* Doctor Name Input */}
+      {/* Medications Input */}
+      <div className="relative z-0 w-full mb-5 group">
+        <textarea
+          name="medications"
+          id="medications"
+          value={formData.medications}
+          onChange={handleChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+        />
+        <label
+          htmlFor="medications"
+          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+          Medications
+        </label>
+      </div>
+
+      {/* Follow-up Date Input */}
+      <div className="relative z-0 w-full mb-5 group">
+        <input
+          type="date"
+          name="followUpDate"
+          id="follow_up_date"
+          value={formData.followUpDate}
+          onChange={handleChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+        />
+        <label
+          htmlFor="follow_up_date"
+          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+          Follow-up Date
+        </label>
+      </div>
+
+      {/* Doctor's Name Input */}
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="text"
@@ -193,7 +248,7 @@ const CreateLabReport = () => {
           htmlFor="doctor_name"
           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Doctor Name
+          Doctor's Name
         </label>
       </div>
 
@@ -218,9 +273,9 @@ const CreateLabReport = () => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none"
+        className="w-full bg-[#E6A4B4] p-2 rounded-md text-white hover:bg-[#D28A9E] hover:shadow-lg hover:text-black hover:scale-105"
       >
-        Create Lab Report
+        Submit Report
       </button>
     </form>
   );

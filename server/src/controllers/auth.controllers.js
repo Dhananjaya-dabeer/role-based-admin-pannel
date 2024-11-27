@@ -59,7 +59,7 @@ export const login = async(req, res, next) => {
             {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'Strict', // in deploying server it should be 'None' in local host it should be 'Strict'
+                sameSite: 'None', // in deploying server it should be 'None' in local host it should be 'Strict'
                 // expires: new Date( Date.now() + 24 * 60 * 60 * 1000),
                 expires: new Date( Date.now() + 60 * 60 * 1000),
                 path: '/'
