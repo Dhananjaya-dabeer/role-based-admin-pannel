@@ -59,7 +59,7 @@ export const login = async(req, res, next) => {
             {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'Strict',
+                sameSite: 'None',
                 // expires: new Date( Date.now() + 24 * 60 * 60 * 1000),
                 expires: new Date( Date.now() + 60 * 60 * 1000),
                 path: '/'
