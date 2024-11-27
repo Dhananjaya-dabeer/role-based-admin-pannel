@@ -1,55 +1,55 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { catchHandler, resultCheck } from '../utils/utitlityFunctions'
-import Loader from '../components/Loader'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { catchHandler, resultCheck } from '../utils/utitlityFunctions';
+import Loader from '../components/Loader';
 
 const LabReports = () => {
-  const [labReportsData, setLabReportsData] = useState([])  // Store the lab reports data
-  const [isLoading, setIsLoading] = useState(true)  // Loading state
-  const dispatch = useDispatch()  // Redux dispatch
-  const { currentUser } = useSelector(state => state.user)  // Current logged in user
+  const [labReportsData, setLabReportsData] = useState([]);  // Store the lab reports data
+  const [isLoading, setIsLoading] = useState(true);  // Loading state
+  const dispatch = useDispatch();  // Redux dispatch
+  const { currentUser } = useSelector(state => state.user);  // Current logged-in user
 
   useEffect(() => {
     // Fetch lab reports data from the backend
-    ;(async () => {
+    (async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/get`, {
           method: 'GET',
           headers: {
             'Content-Type': 'Application/json',
           },
-          credentials: 'include'
-        })
+          credentials: 'include',
+        });
 
-        const result = await response.json()
-        resultCheck(dispatch, result)
+        const result = await response.json();
+        resultCheck(dispatch, result);
 
         if (result.data) {
-          setLabReportsData(result.data)  
+          setLabReportsData(result.data);  
         }
       } catch (error) {
-        catchHandler(dispatch, error)
+        catchHandler(dispatch, error);
       } finally {
-        setIsLoading(false)  
+        setIsLoading(false);  
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
   // Handle form input change for each lab report
   const handleChange = (e, id) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setLabReportsData(prevReports =>
       prevReports.map(report =>
         report._id === id ? { ...report, [name]: value } : report
       )
-    )
-  }
+    );
+  };
 
   // Handle form submission for each lab report
   const handleSubmit = async (e, id) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const labReportToUpdate = labReportsData.find(report => report._id === id)
+    const labReportToUpdate = labReportsData.find(report => report._id === id);
 
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/update/${id}`, {
@@ -59,19 +59,14 @@ const LabReports = () => {
         },
         credentials: 'include',
         body: JSON.stringify(labReportToUpdate),  // Send the updated lab report data
-      })
+      });
 
-      const result = await response.json()
-      const updateVerified = resultCheck(dispatch, result)
-
-      // You can navigate to a specific page after successful update if needed
-      // if (updateVerified) {
-      //   navigate(`/lab/report/${id}`)  // Navigate to the updated report details page
-      // }
+      const result = await response.json();
+      const updateVerified = resultCheck(dispatch, result);
     } catch (error) {
-      catchHandler(dispatch, error)
+      catchHandler(dispatch, error);
     }
-  }
+  };
 
   // Handle delete request for each lab report
   const handleDelete = async (id) => {
@@ -83,23 +78,23 @@ const LabReports = () => {
             'Content-Type': 'Application/json',
           },
           credentials: 'include',
-        })
+        });
 
-        const result = await response.json()
-        const deleteVerified = resultCheck(dispatch, result)
+        const result = await response.json();
+        const deleteVerified = resultCheck(dispatch, result);
 
         if (deleteVerified) {
           // Remove the deleted report from the state
-          setLabReportsData(prevReports => prevReports.filter(report => report._id !== id))
+          setLabReportsData(prevReports => prevReports.filter(report => report._id !== id));
         }
       } catch (error) {
-        catchHandler(dispatch, error)
+        catchHandler(dispatch, error);
       }
     }
-  }
+  };
 
   return (
-    <div>
+    <div className="container mx-auto p-5">
       <h2 className="text-center text-xl font-bold">Lab Reports</h2>
 
       {isLoading ? (
@@ -107,7 +102,7 @@ const LabReports = () => {
           <Loader width={'w-8'} height={'h-8'} />
         </div>
       ) : (
-        <div className='space-y-10'>
+        <div className="space-y-10">
           {labReportsData.map((report, idx) => (
             <form
               key={report._id}
@@ -117,7 +112,7 @@ const LabReports = () => {
               {/* Display Serial Number */}
               <h3 className="text-lg font-semibold">Lab Report {idx + 1}.</h3>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <label className="block">Report Title</label>
                   <input
@@ -229,7 +224,7 @@ const LabReports = () => {
               </div>
 
               {["admin", "moderator", "lab_tech"].includes(currentUser.role) && (
-                <div className="text-center mt-5 space-x-4">
+                <div className="flex justify-center gap-4 mt-5">
                   <button
                     type="submit"
                     className="bg-blue-500 text-white p-2 px-4 rounded-md"
@@ -251,7 +246,7 @@ const LabReports = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default LabReports
+export default LabReports;

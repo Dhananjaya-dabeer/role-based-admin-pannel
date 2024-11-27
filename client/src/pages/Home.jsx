@@ -3,14 +3,12 @@ import { Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { catchHandler, resultCheck } from '../utils/utitlityFunctions'
 import { useDispatch } from 'react-redux'
-import { data } from 'react-router-dom'
-
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 const Home = () => {
   const [employeeData, setEmployeeData] = useState({
-    labels: ['Doctor', 'Nurse', 'Admin', 'Lab-Tech', 'Moderator'], 
+    labels: ['Doctor', 'Nurse', 'Admin', 'Lab-Tech', 'Moderator'],
     datasets: [
       {
         label: 'Employee Distribution',
@@ -20,7 +18,7 @@ const Home = () => {
     ],
   })
   const dispatch = useDispatch()
-  const[reportData, setReportData] = useState({
+  const [reportData, setReportData] = useState({
     labels: ['Lab Reports', 'Doctor Reports'],
     datasets: [
       {
@@ -32,7 +30,7 @@ const Home = () => {
   })
 
   useEffect(() => {
-    ;(async() => {
+    ;(async () => {
       try {
         const labResponse = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/home`, {
           method: "GET",
@@ -52,23 +50,21 @@ const Home = () => {
         })
         const doctorResult = await doctorResponse.json()
         const doctorStatus = resultCheck(dispatch, doctorResult)
-        if(labStatus && doctorStatus){
-          setReportData(prev => (
-            {
-              ...prev, 
-              datasets: [
-                {
-                  ...prev.datasets[0],
-                  data: [labResult.data, doctorResult.data]
-                }
-              ]
-            }
-          ))
+        if (labStatus && doctorStatus) {
+          setReportData(prev => ({
+            ...prev,
+            datasets: [
+              {
+                ...prev.datasets[0],
+                data: [labResult.data, doctorResult.data],
+              }
+            ]
+          }))
         }
 
         try {
           const employeeResponse = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/get/list`, {
-            method: "GET", 
+            method: "GET",
             headers: {
               "Content-Type": "Application/json"
             },
@@ -76,7 +72,7 @@ const Home = () => {
           })
           const employeeResult = await employeeResponse.json()
           const employeestatus = resultCheck(dispatch, employeeResult)
-          if(employeestatus){
+          if (employeestatus) {
             const copyOfResult = [...employeeResult.data]
             const doctors = copyOfResult.filter((item) => item.role === "doctor")
             const admin = copyOfResult.filter((item) => item.role === "admin")
@@ -86,16 +82,16 @@ const Home = () => {
             setEmployeeData(prev => ({
               ...prev,
               datasets: [
-              {...prev.datasets[0],
-               data: [doctors.length, admin.length, nurse.length, moderator.length, lab_tech.length]
-              }
+                {
+                  ...prev.datasets[0],
+                  data: [doctors.length, admin.length, nurse.length, moderator.length, lab_tech.length]
+                }
               ]
-              
             }))
           }
         } catch (error) {
           catchHandler(dispatch, error)
-        }finally{
+        } finally {
           setIsLoading(false)
         }
       } catch (error) {
@@ -109,24 +105,27 @@ const Home = () => {
 
   return (
     <div className="container mx-auto p-5">
-      <h2 className="text-center text-xl font-bold">Dashboard</h2>
+      <h2 className="text-center text-xl font-bold mb-5">Dashboard</h2>
 
-     <div className='flex justify-evenly items-center flex-row w-screen'>
-     <div className="my-10">
-        <h3 className="text-center text-lg font-semibold mb-4">Employee Distribution</h3>
-        <div className="w-full flex justify-center">
-          {employeeData && <Pie data={employeeData} />}
+      {/* Flexbox Container for the Pie Charts */}
+      <div className='flex flex-col sm:flex-row justify-evenly items-center sm:space-x-10 space-y-10 sm:space-y-0'>
+
+        {/* Employee Distribution Chart */}
+        <div className="my-10 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 max-w-lg">
+          <h3 className="text-center text-lg font-semibold mb-4">Employee Distribution</h3>
+          <div className="w-full flex justify-center">
+            {employeeData && <Pie data={employeeData} />}
+          </div>
+        </div>
+
+        {/* Report Types Distribution Chart */}
+        <div className="my-10 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 max-w-lg">
+          <h3 className="text-center text-lg font-semibold mb-4">Report Types Distribution</h3>
+          <div className="w-full flex justify-center">
+            <Pie data={reportData} />
+          </div>
         </div>
       </div>
-
-     
-      <div className="my-10">
-        <h3 className="text-center text-lg font-semibold mb-4">Report Types Distribution</h3>
-        <div className="w-full flex justify-center">
-          <Pie data={reportData} />
-        </div>
-      </div>
-     </div>
     </div>
   )
 }
