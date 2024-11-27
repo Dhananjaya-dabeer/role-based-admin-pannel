@@ -43,7 +43,7 @@ const NavBar = ({toggleSidebar,isSidebarOpen }) => {
                 <Sidebar toggle={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
                 </div>
                 <div className='hidden space-x-5 items-center sm:flex '>
-                <Link className="pr-7"><GiOverInfinity className="text-xl" /></Link>
+                <Link to={'/'} className="pr-7"><GiOverInfinity className="text-xl" /></Link>
                 <Link to={'/'} className="hidden sm:inline-block">Home</Link>
                 <Link to={'/employees'} className="hidden sm:inline-block">Employees</Link>
                 <Link to={'/reports'} className="hidden sm:inline-block">Reports</Link>

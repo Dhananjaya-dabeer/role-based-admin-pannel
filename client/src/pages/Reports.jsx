@@ -63,25 +63,27 @@ const Reports = () => {
 
   return (
     <div className="">
-      <div className='flex justify-center'>
-        <div className="inline-flex shadow-md" role="group">
-          {buttons.length > 0 &&
-            buttons.map((item, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => handleTabChange(item)}  // Set the active tab on click
-                className={`px-4 py-2 text-sm font-medium ${
-                  activeTab === item
-                    ? 'text-gray-900 bg-white border border-gray-200 ' // Active button styles
-                    : 'text-gray-500 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-gray-900'
-                } focus:z-10  focus:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white`}
-              >
-                {item}
-              </button>
-            ))}
+     <div className='sticky top-10 z-10 '>
+        <div className='flex justify-center'>
+            <div className="inline-flex shadow-md" role="group">
+              {buttons.length > 0 &&
+                buttons.map((item, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleTabChange(item)}  // Set the active tab on click
+                    className={`px-4 py-2 text-sm font-medium ${
+                      activeTab === item
+                        ? 'text-gray-900 bg-white border border-gray-200 ' // Active button styles
+                        : 'text-gray-500 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-gray-900'
+                    } focus:z-10  focus:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white`}
+                  >
+                    {item}
+                  </button>
+                ))}
+            </div>
         </div>
-      </div>
+     </div>
       <div className="mt-5">
         {renderContent()}
       </div>
