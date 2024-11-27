@@ -45,7 +45,7 @@ const doctorReoportSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-})
+}, {timestamps:true})
 
 
 export const DoctorReport = mongoose.model("DoctorReport", doctorReoportSchema)

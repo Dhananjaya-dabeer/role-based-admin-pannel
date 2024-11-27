@@ -72,7 +72,7 @@ export const DeleteReport = async (req, res, next) => {
                 success: true,
                 statusCode: 201,
                 data: deletedUser,
-                message: "report deleteed successfully"
+                message: "report deleted successfully"
             })
             else 
             return next(errorHandler(404, "report not found with id"))
@@ -88,8 +88,8 @@ export const DeleteReport = async (req, res, next) => {
 export const getReport = async (req, res, next) => {
     try {
         const {role} = req.user
-
-        if(roles.includes(role)){
+        const getRoles = ["admin", "moderator", "doctor", "nurse"]
+        if(getRoles.includes(role)){
             const reports = await DoctorReport.find()
             res.status(200).json({
                 success: true,
@@ -159,6 +159,48 @@ export const editReport = async(req, res, next) => {
         }else{
             next(errorHandler(403, "You are not authorized to do this action"))
         }
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getSingleReport = async(req, res, next ) => {
+    try {
+        const {id} = req.params
+        if(!id) return next(errorHandler(400, "bad request id is required"))
+        const getRoles = ["admin", "moderator", "doctor", "nurse"]
+        const {role} = req.user
+        if(getRoles.includes(role)){
+            const report = await DoctorReport.findById(id)
+            if(!report) return next(errorHandler(404, "report not found with id kind"))
+            return res.status(200).json({
+                success: true,
+                statusCode: 200,
+                data: report
+            })
+        }else{
+            return next(errorHandler(403, "You are not authorized to view this content"))
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const numberOfLabreports = async(req, res, next) => {
+    try {
+        const {role} = req.user
+        const getRoles = ["admin", "moderator", "lab_tech", "nurse", "doctor"]
+        if(getRoles.includes(role)){
+            const reports = await DoctorReport.find()
+            res.status(200).json({
+                success: true,
+                statusCode: 201,
+                data: reports.length
+            })
+        }else{
+            next(errorHandler(403, "you are not authorized to view the content"))
+        }
+        
     } catch (error) {
         next(error)
     }

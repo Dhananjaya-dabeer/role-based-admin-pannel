@@ -7,6 +7,8 @@ import loginRouter from './src/routes/auth.routes.js'
 import getEmplyeeRouter from './src/routes/getEmployee.routes.js'
 import healthRouter from './src/routes/health.routes.js'
 import createEmployeeRouter from './src/routes/eployee.routes.js'
+import doctorReportRouter from './src/routes/doctorReport.routes.js'
+import labReportRouter from './src/routes/labReport.routes.js'
 dotenv.config()
 mongoose.connect(process.env.MONGO)
 .then(() => {
@@ -37,7 +39,8 @@ app.use('/api/health', healthRouter)
 app.use('/api/auth/', loginRouter)
 app.use('/api/create/', createEmployeeRouter)
 app.use('/api/get/', getEmplyeeRouter )
-
+app.use('/api/doctor/report/', doctorReportRouter)
+app.use('/api/lab/report/', labReportRouter)
 
 app.use((error, req, res, next) => {
     const statusCode = error.statusCode || 500

@@ -6,16 +6,17 @@ import CreateDoctorReport from '../components/CreateDoctorReport';
 import CreateLabReport from '../components/CreateLabReport';
 
 const Reports = () => {
-  const [activeTab, setActiveTab] = useState('Lab Reports');
+  const [activeTab, setActiveTab] = useState('');
   const [buttons, setButtons] = useState([]);
   const { currentUser } = useSelector(state => state.user);
 
   useEffect(() => {
     // ["nurse", "doctor", "admin", "moderator", "lab_tech"]
-    const roles = ["nurse", "admin", "doctor", "moderator"];
+    const roles = ["nurse", "admin", "doctor", "moderator", "lab_tech"];
     if (roles.includes(currentUser.role)) {
       if (currentUser.role === "nurse") {
         setButtons(["Lab Reports", "Doctor's Report"]);
+        setActiveTab("Lab Reports")
       } else if (currentUser.role === "admin" || currentUser.role === "moderator") {
         setButtons([
           "Lab Reports",
@@ -23,15 +24,22 @@ const Reports = () => {
           "Create Doctor report",
           "Create Lab report"
         ]);
+        setActiveTab("Lab Reports")
       }else if(currentUser.role === "doctor"){
         setButtons([
           "Doctor's Report",
-          "Lab Reports",
           "Create Doctor report",
         ])
+        setActiveTab("Doctor's Report")
+      }else if(currentUser.role === "lab_tech"){
+        setButtons([
+          "Lab Reports",
+          "Create Lab report",
+        ])
+        setActiveTab("Lab Reports")
       }
     }
-  }, [currentUser]);
+  }, []);
 
   
   const handleTabChange = (tab) => {
@@ -49,8 +57,6 @@ const Reports = () => {
         return <CreateDoctorReport/>;
       case "Create Lab report":
         return <CreateLabReport/>;
-      default:
-        return <div>Profile Content</div>;
     }
   }
 

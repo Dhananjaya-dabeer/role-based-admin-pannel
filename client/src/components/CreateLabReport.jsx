@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { catchHandler, resultCheck } from '../utils/utitlityFunctions';
+import {useDispatch} from 'react-redux'
 const CreateLabReport = () => {
   const [formData, setFormData] = useState({
     reportTitle: '',
@@ -23,11 +24,39 @@ const CreateLabReport = () => {
       [name]: value
     }));
   };
+  const dispatch = useDispatch()
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(formData); // You can handle the submission here
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json"
+        },
+        credentials: 'include',
+        body: JSON.stringify(formData)
+      })
+      const result = await response.json()
+      const statement = resultCheck(dispatch, result)
+      if(statement)
+      setFormData({
+        reportTitle: '',
+        sampleId: '',
+        labDate: '',
+        result: '',
+        technicianName: '',
+        patientName: '',  
+        testType: '',     
+        technicianId: '', 
+        labNotes: '',     
+        reportStatus: '', 
+        doctorName: '',    
+      })
+    } catch (error) {
+      catchHandler(dispatch, error)
+    }
   };
 
   return (
@@ -232,6 +261,24 @@ const CreateLabReport = () => {
           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
           Doctor's Name
+        </label>
+      </div>
+      <div className="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          name="labNotes"
+          id="labNotes"
+          value={formData.labNotes}
+          onChange={handleChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+          required
+        />
+        <label
+          htmlFor="doctor_name"
+          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+          Lab notes
         </label>
       </div>
 

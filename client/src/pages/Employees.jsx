@@ -60,7 +60,7 @@ const Employees = () => {
 
       <div className='mt-5 space-y-4'>
        { !isLoading ?  employeeData?.map((user) => 
-        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 text-sm flex items-center justify-between ">
+        <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 text-sm flex items-center justify-between " key={user._id}>
          <div className=''>
          <div className="flex  space-x-2 ">
               <p className='font-medium'>Employee Id:</p>

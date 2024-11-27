@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { catchHandler, resultCheck } from '../utils/utitlityFunctions';
+import {useDispatch} from 'react-redux'
 const CreateDoctorReport = () => {
   const [formData, setFormData] = useState({
     patientName: '',
@@ -15,7 +16,9 @@ const CreateDoctorReport = () => {
     comments: ''
   });
 
-  // Handle input changes
+
+  const dispatch = useDispatch
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -25,9 +28,37 @@ const CreateDoctorReport = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(formData); // You can handle the submission here
+    try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/doctor/report/create`, {
+          method: "POST",
+          headers:{
+            "Content-Type": "Application/json"
+          },
+          credentials: 'include',
+          body: JSON.stringify(formData)
+        })
+        const result = await response.json()
+       const status =  resultCheck(dispatch, result)
+       if(status){
+        setFormData({
+          patientName: '',
+          patientId: '',
+          age: '',
+          gender: '',
+          dateOfVisit: '',
+          diagnosis: '',
+          treatmentPlan: '',
+          medications: '',
+          followUpDate: '',
+          doctorName: '',
+          comments: ''
+        })
+       }
+    } catch (error) {
+      catchHandler(dispatch, error)
+    }
   };
 
   return (

@@ -145,8 +145,9 @@ export const DeleteReport = async(req, res, next) => {
 }
 export const getReport = async(req, res, next) => {
     try {
+        const getRoles = ["admin", "moderator", "lab_tech", "nurse"]
         const {role} = req.user
-        if(roles.includes(role)){
+        if(getRoles.includes(role)){
             const reports = await LabReport.find()
             return res.status(200).json({
                 success: true,
@@ -154,7 +155,48 @@ export const getReport = async(req, res, next) => {
                 statusCode: 200
             })
         }else{
-            return next(errorHandler(403, "You are not authorized to this action"))
+            return next(errorHandler(403, "You are not authorized to view this content"))
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getSingleReport = async (req, res, next) => {
+    try {
+        const getRoles = ["admin", "moderator", "lab_tech", "nurse"]
+        const {id} = req.params
+        if(!id) return next(errorHandler(400, "bad request id is required"))
+        const {role} = req.user
+        if(getRoles.includes(role)){
+            const report = await LabReport.findById(id)
+            if(!report) return next(errorHandler(400, "report not found with id kind"))
+            return res.status(200).json({
+                success: true,
+                statusCode: 200,
+                data:report,
+            })
+        }else{
+            next(errorHandler(403, "You are not allowed to view this content"))
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const numberOfLabreports = async(req, res, next) => {
+    try {
+        const getRoles = ["admin", "moderator", "lab_tech", "nurse", "doctor"]
+        const {role} = req.user
+        if(getRoles.includes(role)){
+            const reports = await LabReport.find()
+            return res.status(200).json({
+                success: true,
+                data:reports.length,
+                statusCode: 200
+            })
+        }else{
+            return next(errorHandler(403, "You are not authorized to view this content"))
         }
     } catch (error) {
         next(error)

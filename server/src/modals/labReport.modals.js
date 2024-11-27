@@ -45,6 +45,6 @@ const LabReportSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+}, {timestamps:true})
 
 export const LabReport = mongoose.model("LabReport", LabReportSchema)
