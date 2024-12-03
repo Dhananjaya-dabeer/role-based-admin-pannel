@@ -7,7 +7,7 @@ const Unauthorized = () => {
   return (
     <div className="w-screen h-screen flex items-center justify-center"> 
 
-        <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow  dark:border-gray-700">
+        <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow  ">
             <div>
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 "><RiUserForbidFill />Forbidden 403</h5>
             </div>
