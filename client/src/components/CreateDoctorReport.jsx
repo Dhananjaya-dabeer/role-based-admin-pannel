@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { catchHandler, resultCheck } from '../utils/utitlityFunctions';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { catchHandler, resultCheck } from "../utils/utitlityFunctions";
+import { useDispatch } from "react-redux";
 
 const CreateLabReport = () => {
   const [formData, setFormData] = useState({
-    patientName: '',
-    patientId: '',
-    age: '',
-    gender: '',
-    dateOfVisit: '',
-    diagnosis: '',
-    treatmentPlan: '',
-    medications: '',
-    followUpDate: '',
-    doctorName: '',
-    comments: ''
+    patientName: "",
+    patientId: "",
+    age: "",
+    gender: "",
+    dateOfVisit: "",
+    diagnosis: "",
+    treatmentPlan: "",
+    medications: "",
+    followUpDate: "",
+    doctorName: "",
+    comments: "",
   });
 
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const CreateLabReport = () => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -31,31 +31,31 @@ const CreateLabReport = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/create`,
+        `${import.meta.env.VITE_BACKEND_BASE_URI}/api/doctor/report/create`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'Application/json'
+            "Content-Type": "Application/json",
           },
-          credentials: 'include',
-          body: JSON.stringify(formData)
+          credentials: "include",
+          body: JSON.stringify(formData),
         }
       );
       const result = await response.json();
       const status = resultCheck(dispatch, result);
       if (status) {
         setFormData({
-          patientName: '',
-          patientId: '',
-          age: '',
-          gender: '',
-          dateOfVisit: '',
-          diagnosis: '',
-          treatmentPlan: '',
-          medications: '',
-          followUpDate: '',
-          doctorName: '',
-          comments: ''
+          patientName: "",
+          patientId: "",
+          age: "",
+          gender: "",
+          dateOfVisit: "",
+          diagnosis: "",
+          treatmentPlan: "",
+          medications: "",
+          followUpDate: "",
+          doctorName: "",
+          comments: "",
         });
       }
     } catch (error) {

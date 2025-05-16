@@ -1,36 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { catchHandler, resultCheck } from '../utils/utitlityFunctions';
-import Loader from '../components/Loader';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { catchHandler, resultCheck } from "../utils/utitlityFunctions";
+import Loader from "../components/Loader";
 
 const LabReports = () => {
-  const [labReportsData, setLabReportsData] = useState([]);  // Store the lab reports data
-  const [isLoading, setIsLoading] = useState(true);  // Loading state
-  const dispatch = useDispatch();  // Redux dispatch
-  const { currentUser } = useSelector(state => state.user);  // Current logged-in user
+  const [labReportsData, setLabReportsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user); // Current logged-in user
 
   useEffect(() => {
     // Fetch lab reports data from the backend
     (async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/get`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'Application/json',
-          },
-          credentials: 'include',
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/get`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "Application/json",
+            },
+            credentials: "include",
+          }
+        );
 
         const result = await response.json();
         resultCheck(dispatch, result);
 
         if (result.data) {
-          setLabReportsData(result.data);  
+          setLabReportsData(result.data);
         }
       } catch (error) {
         catchHandler(dispatch, error);
       } finally {
-        setIsLoading(false);  
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -38,28 +41,32 @@ const LabReports = () => {
   // Handle form input change for each lab report
   const handleChange = (e, id) => {
     const { name, value } = e.target;
-    setLabReportsData(prevReports =>
-      prevReports.map(report =>
+    setLabReportsData((prevReports) =>
+      prevReports.map((report) =>
         report._id === id ? { ...report, [name]: value } : report
       )
     );
   };
 
-  // Handle form submission for each lab report
   const handleSubmit = async (e, id) => {
     e.preventDefault();
 
-    const labReportToUpdate = labReportsData.find(report => report._id === id);
+    const labReportToUpdate = labReportsData.find(
+      (report) => report._id === id
+    );
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/update/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'Application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(labReportToUpdate),  // Send the updated lab report data
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/update/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "Application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(labReportToUpdate),
+        }
+      );
 
       const result = await response.json();
       const updateVerified = resultCheck(dispatch, result);
@@ -72,20 +79,27 @@ const LabReports = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this lab report?")) {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URI}/api/lab/report/delete/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'Application/json',
-          },
-          credentials: 'include',
-        });
+        const response = await fetch(
+          `${
+            import.meta.env.VITE_BACKEND_BASE_URI
+          }/api/lab/report/delete/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "Application/json",
+            },
+            credentials: "include",
+          }
+        );
 
         const result = await response.json();
         const deleteVerified = resultCheck(dispatch, result);
 
         if (deleteVerified) {
           // Remove the deleted report from the state
-          setLabReportsData(prevReports => prevReports.filter(report => report._id !== id));
+          setLabReportsData((prevReports) =>
+            prevReports.filter((report) => report._id !== id)
+          );
         }
       } catch (error) {
         catchHandler(dispatch, error);
@@ -99,7 +113,7 @@ const LabReports = () => {
 
       {isLoading ? (
         <div className="w-full h-full flex justify-center items-center">
-          <Loader width={'w-8'} height={'h-8'} />
+          <Loader width={"w-8"} height={"h-8"} />
         </div>
       ) : (
         <div className="space-y-10">
@@ -223,7 +237,9 @@ const LabReports = () => {
                 </div>
               </div>
 
-              {["admin", "moderator", "lab_tech"].includes(currentUser.role) && (
+              {["admin", "moderator", "lab_tech"].includes(
+                currentUser.role
+              ) && (
                 <div className="flex justify-center gap-4 mt-5">
                   <button
                     type="submit"
